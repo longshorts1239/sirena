@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Νομοθεσίων — Ελληνική Νομοθεσία για Φοιτητές & Νομικούς</title>
+  <meta name="description" content="Δομημένο ευρετήριο της ελληνικής νομοθεσίας ανά κλάδο δικαίου, με αναζήτηση και συνδέσμους στα επίσημα πλήρη κείμενα. Για φοιτητές Νομικής και νομικούς." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚖️</text></svg>" />
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#results">Μετάβαση στο περιεχόμενο</a>
+
+  <!-- ============ HEADER ============ -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="#" aria-label="Αρχική">
+        <span class="brand-mark" aria-hidden="true">⚖️</span>
+        <span class="brand-text">
+          <strong>Νομοθεσίων</strong>
+          <small>Ελληνική Νομοθεσία</small>
+        </span>
+      </a>
+      <div class="header-actions">
+        <label class="source-picker">
+          <span class="source-picker__label">Πηγή κειμένων:</span>
+          <select id="sourceSelect" aria-label="Επιλογή πηγής πλήρους κειμένου">
+            <option value="google">Αναζήτηση (Google)</option>
+            <option value="kodiko">kodiko.gr</option>
+            <option value="enomothesia">e-nomothesia.gr</option>
+            <option value="et">Εθνικό Τυπογραφείο</option>
+          </select>
+        </label>
+        <button id="themeToggle" class="icon-btn" type="button" aria-label="Εναλλαγή θέματος" title="Εναλλαγή φωτεινού/σκοτεινού θέματος">
+          <span class="theme-icon">🌙</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============ HERO + SEARCH ============ -->
+  <section class="hero">
+    <div class="container">
+      <h1 class="hero__title">Όλη η ελληνική νομοθεσία, οργανωμένη.</h1>
+      <p class="hero__subtitle">
+        Το Σύνταγμα, οι Κώδικες και οι θεμελιώδεις νόμοι κάθε κλάδου δικαίου —
+        ταξινομημένοι σε κατηγορίες, με άμεση αναζήτηση και συνδέσμους στα επίσημα πλήρη κείμενα.
+        Για φοιτητές της Νομικής και για δικηγόρους &amp; νομικούς.
+      </p>
+
+      <div class="searchbar" role="search">
+        <span class="searchbar__icon" aria-hidden="true">🔎</span>
+        <input
+          type="search"
+          id="searchInput"
+          class="searchbar__input"
+          placeholder="Αναζητήστε νόμο, κώδικα, θέμα ή αριθμό (π.χ. «ποινικός», «4548/2018», «διαζύγιο»)…"
+          autocomplete="off"
+          aria-label="Αναζήτηση νομοθεσίας"
+        />
+        <button id="clearSearch" class="searchbar__clear" type="button" aria-label="Καθαρισμός" hidden>✕</button>
+      </div>
+
+      <div class="hero__stats" id="statsBar" aria-live="polite"></div>
+      <div class="quick-tags" id="quickTags" aria-label="Δημοφιλείς αναζητήσεις"></div>
+    </div>
+  </section>
+
+  <!-- ============ MAIN ============ -->
+  <main class="container" id="main">
+    <!-- Category filter chips -->
+    <nav class="filters" id="filterBar" aria-label="Φίλτρα κατηγοριών"></nav>
+
+    <!-- Category overview (shown when no query/filter) -->
+    <section id="categoryGrid" class="category-grid" aria-label="Κατηγορίες δικαίου"></section>
+
+    <!-- Results -->
+    <section id="results" aria-live="polite">
+      <div class="results-head">
+        <h2 id="resultsTitle" class="results-title"></h2>
+        <div class="results-meta" id="resultsMeta"></div>
+      </div>
+      <div id="resultsList" class="results-list"></div>
+      <div id="emptyState" class="empty-state" hidden>
+        <span class="empty-state__icon" aria-hidden="true">📭</span>
+        <p>Δεν βρέθηκαν νόμοι για την αναζήτησή σας.</p>
+        <p class="empty-state__hint">Δοκιμάστε διαφορετικούς όρους ή <button class="linklike" id="resetFromEmpty" type="button">δείτε όλες τις κατηγορίες</button>.</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-col">
+        <h3>Σχετικά</h3>
+        <p>
+          Το <strong>Νομοθεσίων</strong> είναι ένα δομημένο, ελεύθερο ευρετήριο της βασικής ελληνικής
+          νομοθεσίας για εκπαιδευτική και ενημερωτική χρήση. Παρέχει οργάνωση ανά κλάδο δικαίου
+          και ταχεία αναζήτηση, παραπέμποντας στα επίσημα πλήρη κείμενα.
+        </p>
+      </div>
+      <div class="footer-col">
+        <h3>Επίσημες πηγές</h3>
+        <ul class="footer-links">
+          <li><a href="https://www.et.gr/" target="_blank" rel="noopener">Εθνικό Τυπογραφείο (ΦΕΚ)</a></li>
+          <li><a href="https://www.hellenicparliament.gr/Nomothetiko-Ergo/Anazitisi-Nomothetikou-Ergou" target="_blank" rel="noopener">Βουλή των Ελλήνων</a></li>
+          <li><a href="https://www.kodiko.gr/" target="_blank" rel="noopener">kodiko.gr</a></li>
+          <li><a href="https://www.e-nomothesia.gr/" target="_blank" rel="noopener">e-nomothesia.gr</a></li>
+        </ul>
+      </div>
+      <div class="footer-col footer-col--wide">
+        <h3>Νομική σημείωση</h3>
+        <p class="disclaimer">
+          Το περιεχόμενο παρέχεται «ως έχει», χωρίς εγγύηση πληρότητας ή επικαιρότητας, και
+          <strong>δεν αποτελεί νομική συμβουλή</strong> ούτε υποκαθιστά τις επίσημες πηγές.
+          Για κάθε επίσημη χρήση επαληθεύετε το πλήρες, επικαιροποιημένο κείμενο στο Εθνικό
+          Τυπογραφείο. Οι αναφορές ΦΕΚ είναι ενδεικτικές.
+        </p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container">
+        <span id="footerCount"></span>
+        <span>· Φτιαγμένο για φοιτητές &amp; νομικούς</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============ TEMPLATES ============ -->
+  <template id="lawCardTemplate">
+    <article class="law-card">
+      <div class="law-card__top">
+        <span class="law-card__type"></span>
+        <span class="law-card__cat"></span>
+      </div>
+      <h3 class="law-card__title"></h3>
+      <p class="law-card__summary"></p>
+      <div class="law-card__meta"></div>
+      <div class="law-card__tags"></div>
+      <div class="law-card__actions">
+        <a class="btn btn--primary law-card__fulltext" target="_blank" rel="noopener">Πλήρες κείμενο ↗</a>
+        <button class="btn btn--ghost law-card__cite" type="button">Αντιγραφή παραπομπής</button>
+      </div>
+    </article>
+  </template>
+
+  <script src="data/legislation.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>
