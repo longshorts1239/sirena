@@ -9,6 +9,10 @@
   var CATEGORIES = DATA.categories;
   var LAWS = DATA.laws;
 
+  /* --------- Ασφαλής πρόσβαση localStorage (sandbox/ιδιωτική περιήγηση) --------- */
+  function lsGet(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+  function lsSet(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+
   /* --------- Χάρτης κατηγοριών για γρήγορη αναζήτηση --------- */
   var CAT_BY_ID = {};
   CATEGORIES.forEach(function (c) { CAT_BY_ID[c.id] = c; });
@@ -98,7 +102,7 @@
     return parts.join(" ");
   }
   function sourceUrl(law) {
-    var provider = localStorage.getItem(SOURCE_KEY) || "google";
+    var provider = lsGet(SOURCE_KEY) || "google";
     var base = refString(law);
     var q;
     switch (provider) {
@@ -394,14 +398,14 @@
     if (icon) icon.textContent = t === "dark" ? "☀️" : "🌙";
   }
   function initTheme() {
-    var saved = localStorage.getItem(THEME_KEY);
+    var saved = lsGet(THEME_KEY);
     var t = saved || (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
     applyTheme(t);
     var btn = $("#themeToggle");
     if (btn) btn.addEventListener("click", function () {
       var cur = document.documentElement.getAttribute("data-theme");
       var next = cur === "dark" ? "light" : "dark";
-      localStorage.setItem(THEME_KEY, next);
+      lsSet(THEME_KEY, next);
       applyTheme(next);
     });
   }
@@ -410,10 +414,10 @@
   function initSourceSelect() {
     var sel = $("#sourceSelect");
     if (!sel) return;
-    var saved = localStorage.getItem(SOURCE_KEY) || "google";
+    var saved = lsGet(SOURCE_KEY) || "google";
     sel.value = saved;
     sel.addEventListener("change", function () {
-      localStorage.setItem(SOURCE_KEY, sel.value);
+      lsSet(SOURCE_KEY, sel.value);
       render(); // ανανέωση συνδέσμων
     });
   }
