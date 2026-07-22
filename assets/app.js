@@ -290,6 +290,15 @@
     // «Όλα» ενεργό όταν δεν υπάρχει κατηγορία
     if (filterBar.firstChild) filterBar.firstChild.setAttribute("aria-pressed", state.cat ? "false" : (state.query ? "false" : "false"));
 
+    // Φέρνει το ενεργό chip κατηγορίας σε ορατό σημείο στη μπάρα (χρήσιμο σε κινητά)
+    if (state.cat) {
+      var activeChip = filterBar.querySelector('.filter-chip[aria-pressed="true"]');
+      if (activeChip && filterBar.scrollWidth > filterBar.clientWidth + 4) {
+        var cr = activeChip.getBoundingClientRect(), fr = filterBar.getBoundingClientRect();
+        if (cr.left < fr.left + 8 || cr.right > fr.right - 8) filterBar.scrollLeft += (cr.left - fr.left) - 16;
+      }
+    }
+
     clearBtn.hidden = !state.query;
 
     var idle = !state.query && !state.cat;
